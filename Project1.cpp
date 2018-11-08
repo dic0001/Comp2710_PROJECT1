@@ -25,6 +25,7 @@ const int HARD_HALL_LENGTH = 100;
 const int MEDIUM_HALL_LENGTH = 50;
 const int EASY_HALL_LENGTH = 20;
 const int MAX_HIGHSCORESLIST_SIZE = 10;
+const int MAX_PUZZLES = 10;
 typedef unsigned int unsInt;
 bool check_number(unsInt& input); // global method that will check the for integer inputs of the users.
 
@@ -166,7 +167,7 @@ void PlayGame:: move()  {
    plusProg();
 
 // then create Encounter object class, generate random number for encounters list.
-
+   
 }
 
 /* player selects the read papers option and gains a random amt of intelligence and looses
@@ -236,11 +237,19 @@ class Encounters  {
    public:
    void seeProfessor();       // still need to complete this skeleton... missing functions.
    void anotherGrad();
-   void grutWork();
+   void gruntWork();
    void gradePapers();
+   int getRandomNum();
+   
+
    
    
-   };   
+}; 
+
+//Implementing the constructor
+void Encounters:: seeProfessor() {
+   
+};  
    
    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    /* Class for the High Scores List. The list will old at most the top 10 scores from high to low. These will be 
@@ -266,11 +275,18 @@ class HighScoresList {
 class Puzzle  {
 
 private:
-
+   struct PuzzleNode {
+       string question;
+       string answer;
+       int points;
+       PuzzleNode *next;
+   };
+   typedef PuzzleNode* node_ptr_t; //Head of the puzzle list
 
 public:
-
-
+   void initialize_puzzles(node_ptr_t& root, node_ptr_t& current, int& questionCount); //Sets an initial list of puzzles
+   PuzzleNode get_puzzle(); //returns a puzzle for use in PlayGame
+   
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -355,27 +371,22 @@ int main()  {
 bool check_number(unsInt& input)  {
    int counter = 0;
 
-   while (input != 1 || input != 2 || input != 3)  {
+   while (!(cin >> input))  {
       
-      if (counter == 5)   {
+      if (cin.eof())   {
          cout << "Please try again later. ***Goodbye*** " << endl;
-      
          return false;
       }
+      else {
+         cin.clear(); 
+         cin.ignore(1000, '\n'); 
       
-      cin.clear(); 
-      cin.ignore(1000, '\n'); 
-      
-      cout <<"Error: Invalid input, please enter 1, 2, or 3: ";
-      cin >> input;
-      counter++;
-      cout << endl;
+         cout <<"Error: Invalid input, please enter 1, 2, or 3: ";
+         cin >> input;
+         counter++;
+         cout << endl;
+      }
    }
       
    return true;
 }
-
-
-
-
-
